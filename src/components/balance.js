@@ -1,13 +1,21 @@
 import * as StellarSdk from "@stellar/stellar-sdk";
 
-const balance = async () => {
+const balance = async (account) => {
   try {
     const server = new StellarSdk.Horizon.Server(
       "https://horizon-testnet.stellar.org"
     );
-    const account = await server.loadAccount(childAccount.publicKey());
-    console.log("Balances for account: " + childAccount.publicKey());
+    const account = await server.loadAccount(account);
+    console.log("Balances for account: " + account);
     account.balances.forEach(function (balance) {
+      if (balance.asset_type != "native") {
+        console.log(
+          "Type: ",
+          balance.asset_code,
+          ", Balance:",
+          balance.balance
+        );
+      }
       console.log("Type:", balance.asset_type, ", Balance:", balance.balance);
     });
   } catch (error) {
