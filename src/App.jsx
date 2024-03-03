@@ -4,9 +4,37 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { Keypair } from "@stellar/stellar-sdk";
 import * as StellarSdk from "@stellar/stellar-sdk";
+import QrReader from "react-qr-reader";
+import QRCode from "react-qr-code";
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/Login";
+import Register from "./pages/Register";
 function App() {
   const [count, setCount] = useState(0);
+  //
+
+  const [selected, setSelected] = useState("environment");
+  const [startScan, setStartScan] = useState(false);
+  const [loadingScan, setLoadingScan] = useState(false);
+  const [data, setData] = useState("");
+
+  const handleScan = async (scanData) => {
+    setLoadingScan(true);
+    console.log(`loaded data data`, scanData);
+    if (scanData && scanData !== "") {
+      console.log(`loaded >>>`, scanData);
+      setData(scanData);
+      setStartScan(false);
+      setLoadingScan(false);
+      // setPrecScan(scanData);
+    }
+  };
+  const handleError = (err) => {
+    console.error(err);
+  };
+
+  //
   const create = async () => {
     const pair = Keypair.random();
     try {
@@ -135,15 +163,52 @@ function App() {
         // server.submitTransaction(transaction);
       });
   };
+
   return (
-    <>
-      <button onClick={create} className=" bg-green-500">
-        Create
-      </button>
-      <button onClick={send} className=" bg-green-500">
-        Send
-      </button>
-    </>
+    // <>
+    //   <button onClick={create} className=" bg-green-500">
+    //     Create
+    //   </button>
+    //   <button onClick={send} className=" bg-green-500">
+    //     Send
+    //   </button>
+    //   <div className="App">
+    //     <h1>Hello CodeSandbox</h1>
+    //     <h2>
+    //       Last Scan:
+    //       {selected}
+    //     </h2>
+
+    //     <button
+    //       onClick={() => {
+    //         setStartScan(!startScan);
+    //       }}
+    //     >
+    //       {startScan ? "Stop Scan" : "Start Scan"}
+    //     </button>
+    //     {startScan && (
+    //       <>
+    //         <QrReader
+    //           facingMode={selected}
+    //           delay={1000}
+    //           onError={handleError}
+    //           onScan={handleScan}
+    //           // chooseDeviceId={()=>selected}
+    //           style={{ width: "300px" }}
+    //         />
+    //       </>
+    //     )}
+    //     <QRCode value="https//google.com" />
+    //     {loadingScan && <p>Loading</p>}
+    //     {data !== "" && <p>{data}</p>}
+    //   </div>
+    // </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
