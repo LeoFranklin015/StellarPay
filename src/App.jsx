@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { Keypair } from "@stellar/stellar-sdk";
+import * as StellarSdk from "@stellar/stellar-sdk";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [count, setCount] = useState(0);
+  const create = async () => {
+    const pair = Keypair.random();
+    try {
+      const response = await fetch(
+        `https://friendbot.stellar.org?addr=${encodeURIComponent(
+          pair.publicKey()
+        )}`
+      );
+      const responseJSON = await response.json();
+      console.log("SUCCESS! You have a new account :)\n", responseJSON);
+    } catch (e) {
+      console.error("ERROR!", e);
+    }
+    // After you've got your test lumens from friendbot, we can also use that account to create a new account on the ledger.
+    try {
+      const server = new StellarSdk.Horizon.Server(
+        "https://horizon-testnet.stellar.org"
+      );
+      console.log(server);
+      var parentAccount = await server.loadAccount(pair.publicKey()); //make sure the parent account exists on ledger
+      var childAccount = StellarSdk.Keypair.random(); //generate a random account to create
+      //create a transacion object.
+      var createAccountTx = new StellarSdk.TransactionBuilder(parentAccount, {
+        fee: StellarSdk.BASE_FEE,
+        networkPassphrase: StellarSdk.Networks.TESTNET,
+      });
+      //add the create account operation to the createAccountTx transaction.
+      createAccountTx = await createAccountTx
+        .addOperation(
+          StellarSdk.Operation.createAccount({
+            destination: childAccount.publicKey(),
+            startingBalance: "5",
+          })
+        )
+        .setTimeout(180)
+        .build();
+      //sign the transaction with the account that was created from friendbot.
+      await createAccountTx.sign(pair);
+      //submit the transaction
+      let txResponse = await server
+        .submitTransaction(createAccountTx)
+        // some simple error handling
+        .catch(function (error) {
+          console.log("there was an error");
+          console.log(error.response);
+          console.log(error.status);
+          console.log(error.extras);
+          return error;
+        });
+      console.log(txResponse);
+      console.log("Created the new account", childAccount.publicKey());
+    } catch (e) {
+      console.error("ERROR!", e);
+    }
+  };
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <button onClick={create}>Create</button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
