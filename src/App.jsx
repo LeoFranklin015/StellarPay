@@ -64,7 +64,9 @@ function App() {
   };
   return (
     <>
-      <button onClick={create}>Create</button>
+      <button onClick={create} className=" bg-green-500">
+        Create
+      </button>
     </>
   );
 }
