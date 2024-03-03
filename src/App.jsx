@@ -10,6 +10,7 @@ import QRCode from "react-qr-code";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 function App() {
   const [count, setCount] = useState(0);
   //
@@ -207,6 +208,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

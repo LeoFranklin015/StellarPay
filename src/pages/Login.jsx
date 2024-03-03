@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { CiMail, CiLock } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [user, setuser] = useState("");
   const [password, setpassword] = useState("");
 
@@ -28,6 +29,7 @@ const LoginPage = () => {
       console.log(responseData.privateAddress);
       localStorage.setItem("publicKey", responseData.publicAddress);
       localStorage.setItem("privateKey", responseData.privateAddress);
+      navigate("/home");
     } catch (error) {
       console.error("Error registering user:", error.message);
       // Handle error, such as displaying an error message to the user
@@ -35,7 +37,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center self-center mt-9">
       <div className="w-full max-w-md px-8 py-12 bg-gray-800 rounded-lg shadow-lg text-white">
         <h1 className="text-3xl mb-8 text-center">Login</h1>
         <div className="mb-6 relative">
