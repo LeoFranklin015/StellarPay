@@ -5,6 +5,7 @@ import { RiDownloadLine } from "react-icons/ri";
 // import send from "../components/send";
 
 import * as StellarSdk from "@stellar/stellar-sdk";
+import QrReader from "react-qr-reader";
 
 
 
@@ -20,6 +21,31 @@ const Home = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  ///
+
+  const [selected, setSelected] = useState("environment");
+  const [startScan, setStartScan] = useState(false);
+  const [loadingScan, setLoadingScan] = useState(false);
+  const [data, setData] = useState("");
+
+  const handleScan = async (scanData) => {
+    setLoadingScan(true);
+    console.log(`loaded data data`, scanData);
+    if (scanData && scanData !== "") {
+      console.log(`loaded >>>`, scanData);
+      setData(scanData);
+      setStartScan(false);
+      setLoadingScan(false);
+      // setPrecScan(scanData);
+    }
+  };
+  const handleError = (err) => {
+    console.error(err);
+  };
+
+
+  ///
 
   const send = async (destinationAddress, amount) => {
     const secret = localStorage.getItem("privatekey");
@@ -115,9 +141,24 @@ const Home = () => {
             {/* Modal Content */}
             <h2 className="text-2xl font-bold mb-4">Send Money</h2>
             {/* QR scan button */}
-            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-4">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-4"  onClick={() => {
+            setStartScan(!startScan);
+          }}>
               Scan QR
             </button>
+          
+        {startScan && (
+          <>
+            <QrReader
+              facingMode={selected}
+              delay={1000}
+              onError={handleError}
+              onScan={handleScan}
+              // chooseDeviceId={()=>selected}
+              style={{ width: "300px" }}
+            />
+          </>
+        )}
             {/* Address field */}
             <input
               type="text"
@@ -139,6 +180,7 @@ const Home = () => {
             >
               Send
             </button>
+
           </div>
         </div>
       )}
