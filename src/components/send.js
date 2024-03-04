@@ -1,6 +1,6 @@
 import * as StellarSdk from "@stellar/stellar-sdk";
 
-const send = async (destinationAddress, amount) => {
+export default send = async (destinationAddress, amount) => {
   const secret = localStorage.getItem("privatekey");
   const server = new StellarSdk.Horizon.Server(
     "https://horizon-testnet.stellar.org"
