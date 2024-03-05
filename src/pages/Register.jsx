@@ -13,18 +13,21 @@ const Register = () => {
   const handleRegister = async () => {
     await create();
     try {
-      const response = await fetch("http://localhost:4000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: user,
-          password: password,
-          publicAddress: publickey,
-          privateAddress: privateKey,
-        }),
-      });
+      const response = await fetch(
+        "https://stellarpay-be.onrender.com/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: user,
+            password: password,
+            publicAddress: publickey,
+            privateAddress: privateKey,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to register user");
