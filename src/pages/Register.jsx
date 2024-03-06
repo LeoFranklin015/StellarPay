@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { CiMail, CiLock } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Keypair } from "@stellar/stellar-sdk";
 import * as StellarSdk from "@stellar/stellar-sdk";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [user, setuser] = useState("");
   const [password, setpassword] = useState("");
   const [publickey, setpublic] = useState("");
@@ -104,6 +106,8 @@ const Register = () => {
         console.log("Type:", balance.asset_type, ", Balance:", balance.balance);
       });
       //
+
+      navigate("/home");
     } catch (e) {
       console.error("ERROR!", e);
     }

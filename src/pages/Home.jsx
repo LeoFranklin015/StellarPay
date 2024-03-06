@@ -18,7 +18,7 @@ const Home = () => {
 
   const send = async (destinationAddress, amount) => {
     // const secret = "SAO62XNBBDILTTE4Y4HQKBFCE7TVU5ZKX7EFLKYSJJ4PVNHSFXHQEOG3";
-    const secret = localStorage.getItem("privateKey");
+    const secret = localStorage.getItem("secretKey");
     const server = new StellarSdk.Horizon.Server(
       "https://horizon-testnet.stellar.org"
     );
@@ -267,7 +267,8 @@ const Home = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white p-8 rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Receive Money</h2>
-            <QRCode value="GC3AWYTQXCZIY2U3HPYESXJ6D7HR2O2BP5S7ABPJLENTYR3WPUSEKRRK" />
+            {/* <QRCode value="GC3AWYTQXCZIY2U3HPYESXJ6D7HR2O2BP5S7ABPJLENTYR3WPUSEKRRK" /> */}
+            <QRCode value={localStorage.getItem("publicKey")} />
             <p>{localStorage.getItem("publicKey")}</p>
             <button
               className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
