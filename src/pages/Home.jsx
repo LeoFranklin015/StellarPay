@@ -9,10 +9,10 @@ import { Account } from "@stellar/stellar-sdk";
 import { Contract, networks } from "hello-soroban-client";
 
 const Home = () => {
-  // const token = new Contract({
-  //   ...networks.testnet,
-  //   rpcUrl: "https://soroban-testnet.stellar.org", // from https://soroban.stellar.org/docs/reference/rpc#public-rpc-providers
-  // });
+  const token = new Contract({
+    ...networks.testnet,
+    rpcUrl: "https://soroban-testnet.stellar.org", // from https://soroban.stellar.org/docs/reference/rpc#public-rpc-providers
+  });
 
   const [balance, setBalance] = useState(0); // State to hold balance
 
@@ -177,7 +177,7 @@ const Home = () => {
           </button>
         </div>
       </div>
-      {/* <div>Transactions</div>
+      <div>Transactions</div>
       <button
         onClick={async () => {
           const acc = new Account(
@@ -191,10 +191,7 @@ const Home = () => {
             //   "GAGWIVBKR63CDXTWWUTURHLA5VFPHHUORKFWEEANUSBKRMPGAUC5XO3F",
             //   "1894939570995201"
             // ),
-            new Account(
-              "GAGWIVBKR63CDXTWWUTURHLA5VFPHHUORKFWEEANUSBKRMPGAUC5XO3F",
-              "1894939570995201"
-            ).accountId(),
+            "GAGWIVBKR63CDXTWWUTURHLA5VFPHHUORKFWEEANUSBKRMPGAUC5XO3F",
             "8",
             "StellarPay",
             "SP"
@@ -203,7 +200,7 @@ const Home = () => {
         }}
       >
         Create
-      </button> */}
+      </button>
 
       {/* Send Money Modal */}
       {isSendModalOpen && (
