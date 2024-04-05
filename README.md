@@ -31,6 +31,10 @@ StellarPay offers:
   
 - **Security:** Robust measures to protect user accounts and assets.
 
+  ## Flow 
+![image](https://github.com/LeoFranklin015/StellarPay/assets/94560875/05c35134-6c72-4bd1-82fe-c913700a0ef5)
+
+
 ## Getting Started
 
 To get started with Stellar Pay, follow these steps:
@@ -46,6 +50,7 @@ To get started with Stellar Pay, follow these steps:
 We welcome contributions to Stellar Pay! If you have any ideas for improvements or new features, feel free to submit a pull request or open an issue on our GitHub repository.
 
 ## Support
+
 
 For any questions, feedback, or assistance, please contact our support team at [support@stellarpay.com](mailto:leofranklinjohn.25cs@licet.ac.in). We're here to help!
 
